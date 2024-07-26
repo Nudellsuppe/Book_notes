@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/newBook.css" />
+    <title>New Book</title>
+</head>
+
+<body>
+    <%- include("header.ejs") %>
+        <main>
+            <div class="container">
+                <h1>Neuer Eintrag</h1>
+                <form id="book-form" action="/book/new" method="post">
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="author">Author:</label>
+                        <input type="text" id="author" name="author" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pages">Page Numbers:</label>
+                        <input type="number" id="pages" name="pages" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="amazon">Amazon Link:</label>
+                        <textarea id="amazon" name="amazon" required></textarea>
+                    </div>
+                    <h2>Review</h2>
+                    <div class="form-group">
+                        <label for="review_text">Review Text:</label>
+                        <textarea id="review_text" name="review_text" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="rating">Rating:</label>
+                        <input type="number" id="rating" name="rating" min="1" max="10" required>
+                    </div>
+                    <button type="submit">Speichern</button>
+                </form>
+
+            </div>
+        </main>
+        <script>
+
+
+            function auto_height(elem) {
+                elem.style.height = '1px';
+                elem.style.height = `${elem.scrollHeight}px`;
+            }
+
+            document.querySelectorAll('textarea').forEach(textarea => {
+                textarea.addEventListener('input', function () {
+                    auto_height(this);
+                });
+            });
+        </script>
+</body>
+
+</html>

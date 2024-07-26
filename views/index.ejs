@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books I've Read</title>
+    <link rel="stylesheet" href="/css/main.css" />
+</head>
+
+<body>
+    <%- include("header.ejs") %>
+        <main>
+            <h1>Alle Bücher die ich gelesen habe</h1>
+            <% books.forEach(book=> { %>
+                <div class="book-card">
+                    <form class="edit" action="/edit" method="post">
+                        <input type="number" hidden="true" value="<%= book.id %>" name="id">
+                        <h2 id="title<%=book.id%>">
+                            <%= book.title %>
+                        </h2>
+                        <p id="input_label<%=book.id%>" hidden="true">Title</p>
+                        <input id="input<%=book.id%>" type="text" name="book_title" value="<%= book.title %>"
+                            autocomplete="off" hidden="true" />
+
+                        <h3 id="author<%=book.id%>">von: <%= book.author %>
+                        </h3>
+                        <p id="author_label<%=book.id%>" hidden="true">Author</p>
+                        <input id="input_Author<%=book.id%>" type="text" name="book_author" value="<%= book.author %>"
+                            autocomplete="off" hidden="true" />
+
+                        <p>Zusammenfassung:</p>
+                        <p id="description<%=book.id%>">
+                            <%= book.description %>
+                        </p>
+                        <textarea id="inputDescription<%=book.id%>" name="book_description" hidden="true"
+                            oninput="auto_height(this)"><%= book.description %></textarea>
+
+                        <p id="pages<%=book.id%>">Seiten: <%= book.page_numbers %>
+                        </p>
+                        <span id="pages_span<%=book.id%>" hidden="true">Seiten: </span>
+                        <input id="input_pages<%=book.id%>" type="number" name="book_pages"
+                            value="<%=book.page_numbers%>" autocomplete="off" hidden="true" />
+
+                        <p id="amazon<%=book.id%>">link zu <a href="<%= book.amazon_link %>">Amazon</a></p>
+                        <span id="span_amazon<%=book.id%>" hidden="true">link zu Amazon </span>
+                        <textarea id="input_amazon<%=book.id%>" name="amazon_link" hidden="true"
+                            oninput="auto_height(this)"><%= book.amazon_link %></textarea>
+
+                        <p>link zu <a href="/books/<%= book.id %>">Meiner Bewertung</a></p>
+
+                        <button id="done<%=book.id%>" class="submit" type="submit" hidden="true"><img class="icon"
+                                src="/assets/icons/check-solid.svg" alt="tick image"></button>
+                        <a id="cancel<%= book.id %>" class="submit" href="/" hidden="true"><img class="icon"
+                                src="/assets/icons/cancel-solid.svg" alt="cancel image"></a>
+                    </form>
+                    <button id="edit<%=book.id%>" class="edit-btn" onclick="handler('<%=book.id%>')"><img class="icon"
+                            src="/assets/icons/pencil-solid.svg" alt="pencil image"></button>
+                </div>
+                <% }) %>
+        </main>
+        <script src="/script/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bewertung.css" />
+    <title>Book Notes</title>
+</head>
+
+<body>
+    <%- include("header.ejs") %>
+        <main>
+            <div>
+                <form class="edit" action="/rating/edit" method="post">
+                    <h1>
+                        <%= book.title %>
+                    </h1>
+                    <input type="number" name="bookID" hidden value="<%= book.id %>">
+                    <input type="number" name="reviewID" hidden value="<%= review.id %>">
+                    <hr>
+                    <h2>Meine 5 Cent</h2>
+                    <p id="reviewText">
+                        <%= review.review_text %>
+                    </p>
+                    <textarea name="book_review_text" id="book_review" hidden
+                        oninput="auto_height(this)"><%= review.review_text %></textarea>
+                    <hr>
+                    <p id="rating">
+                        <%= review.review_rating %> / 10
+                    </p>
+                    <span id="ratingLabel" hidden>Rating:</span>
+                    <input type="number" id="book_rating" name="book_rating" hidden value="<%= review.review_rating %>">
+                    <button id="done_review" class="submit" type="submit" hidden="true"><img class="icon"
+                            src="/assets/icons/check-solid.svg" alt="tick image"></button>
+                </form>
+                <a id="editReview" class="editNotes" onclick="handle_review()"><img class="icon"
+                        src="/assets/icons/pencil-solid.svg" alt="pencil image"></a>
+                <a id="cancel_edit_book" class="editNotes" hidden="true" href="/books/<%= book.id %>"><img class="icon"
+                        src="/assets/icons/cancel-solid.svg" alt="cancel image"></a>
+            </div>
+            <div>
+                <h2>Ein paar herausragende Stellen</h2>
+                <% notes.forEach(note=> { %>
+                    <div class="note">
+                        <form class="edit" action="/notes/edit" method="post">
+                            <input type="number" name="id" hidden value="<%= note.id %>">
+                            <input type="number" name="book_id" hidden value="<%= note.book_id %>">
+                            <span id="text<%= note.id %>">
+                                <%= note.note_text %>
+                            </span>
+                            <textarea name="note_text" id="note_text<%= note.id %>" hidden
+                                oninput="auto_height(this)"><%= note.note_text %></textarea>
+
+                            <span class="page" id="pages<%= note.id %>">Seite <%= note.note_pagenumber %></span>
+                            <input name="note_pagenumber" id="note_pagenumber<%= note.id %>"
+                                value="<%= note.note_pagenumber %>" type="number" hidden>
+                            <button id="done<%=note.id%>" class="submit" type="submit" hidden><img class="icon"
+                                    src="/assets/icons/check-solid.svg" alt="tick image"></button>
+                        </form>
+                        <div class="test">
+                            <a id="edit<%=note.id%>" class="editNotes" onclick="test('<%=note.id%>')"><img class="icon"
+                                    src="/assets/icons/pencil-solid.svg" alt="pencil image"></a>
+                            <form action="/notes/delete" method="post">
+                                <input type="text" name="id" hidden value="<%= note.id %>">
+                                <input type="text" name="book_id" hidden value="<%= note.book_id %>">
+                                <button id="delete<%=note.id%>" class="editNotes"><img class="icon"
+                                        src="/assets/icons/delete-solid.svg" alt="delete image"></button>
+                            </form>
+                        </div>
+                    </div>
+                    <% }) %>
+                        <button id="add" class="editNotes" onclick="handler_add()"><img class="icon"
+                                src="/assets/icons/plus-solid.svg" alt="add image"></button>
+                        <a id="cancel_add_note" class="submit" hidden href="/books/<%= book.id %>"><img class="icon"
+                                src="/assets/icons/cancel-solid.svg" alt="cancel image"></a>
+                        <form action="/notes/add" class="edit" method="post">
+                            <textarea name="note_text" id="note_text_new" hidden oninput="auto_height(this)"
+                                required></textarea>
+                            <input name="note_pagenumber_add" id="note_pagenumber_new" type="number" hidden required>
+                            <button id="done_add" class="editNotes" type="submit" hidden><img class="icon"
+                                    src="/assets/icons/check-solid.svg" alt="tick image"></button>
+                            <input type="number" name="book_id" hidden value="<%= notes[0].book_id %>">
+                        </form>
+            </div>
+        </main>
+        <script src="/script/bewertung.js"></script>
+</body>
+
+</html>
